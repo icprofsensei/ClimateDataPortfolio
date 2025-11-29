@@ -275,7 +275,9 @@
 <script src = "eurostock/euromap.js"></script>
 <script src = "eurostock/eurofreq.js"></script>
 <script>
-
+draweuromap('eurostock/data/top20cities.json','euromapcontainer','Top European Urban Economies ',
+        'Source: Oxford Economics, Accessed: 20/07/25, (Cities are mapped to nearest weather stations)'
+    )
     drawtimeseries('eurostock/data/rainactmunich.csv', 'rainact', 'Rainfall time series in Munich', 'Date', 'Rainfall / mm',['#1100ff']);
 
             drawtimeseries('eurostock/data/tempactmunich.csv', 'tempact', 'Temperature time series in Munich', 'Date', 'Temperature / degrees celcius',['#ff570f']);
