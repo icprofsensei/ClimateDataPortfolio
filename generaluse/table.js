@@ -29,7 +29,7 @@ function arraymaker(fileloc) {
 }
 function tablepop(table, fileloc) {
 // Construct the static URL dynamically if needed for Django
-const staticFilePath = `fileloc`;
+const staticFilePath = fileloc;
 
 // Fetch the CSV file
 fetch(staticFilePath)
