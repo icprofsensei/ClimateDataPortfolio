@@ -20,7 +20,7 @@ function drawtree(name, html, orient, translate, width, height) {
       .append("g")
       .attr("transform", translate);
 
-  d3.json("/static/" + name, function(error, flare) {
+  d3.json(name, function(error, flare) {
       if (error) throw error;
 
       root = flare;
