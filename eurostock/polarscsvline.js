@@ -9,7 +9,7 @@ function getRandomColor() {
 function arraymaker(fileloc) {
     return new Promise((resolve, reject) => {
         // Construct the static URL dynamically for Django
-        const staticFilePath = `fileloc`;
+        const staticFilePath =concat('/', fileloc);
 
         // Fetch the CSV file
         fetch(staticFilePath)
