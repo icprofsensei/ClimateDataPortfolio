@@ -11,7 +11,7 @@ function jsonfetch(fileloc) {
   }
   
   function arraymaker(fileloc) {
-    return fetch(`/static/${fileloc}`)
+    return fetch(concat('/', fileloc))
       .then(response => {
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         return response.text();
