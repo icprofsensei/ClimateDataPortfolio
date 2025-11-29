@@ -1,0 +1,82 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Position the image container (needed to position the left and right arrows) */
+.container {
+  position: relative;
+  max-width: 600px; /* Matches the image width */
+  margin: auto; /* Centers the slideshow container */
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor {
+  cursor: pointer;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust for true centering */
+  width: auto;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  border-radius: 50%; /* Makes buttons circular */
+  user-select: none;
+  -webkit-user-select: none;
+  z-index: 100; /* Ensures buttons are above images */
+}
+
+/* Position the "prev" button to the left */
+.prev {
+  left: 40px; /* Distance from the left edge */
+}
+
+/* Position the "next" button to the right */
+.next {
+  right: 0px; /* Distance from the right edge */
+}
+
+/* On hover, add a darker background color */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Number text (e.g., 1/3 etc.) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* Container for image text */
+.caption-container {
+  text-align: center;
+  background-color: #222;
+  padding: 2px 16px;
+  color: white;
+}
+
+/* Make thumbnail images more visible on hover */
+.active,
+.demo:hover {
+  opacity: 1;
+}
+
+.desc {
+  text-align: center;
+}
