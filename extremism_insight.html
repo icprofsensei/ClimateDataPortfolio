@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="//d3js.org/d3.v3.min.js"></script>
+<link href='generaluse/base.css' rel='stylesheet'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js'></script>
+<script src='https://cdn.anychart.com/releases/8.13.0/js/anychart-bundle.min.js'></script>
+<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-heatmap.min.js"></script>
+<title>Extremism Insight</title>
+</head>
+  
+<body>
+
+<div class="wrapper">
+        <main>
+            <div class="wrapper_inner">
+                <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                          </button>
+                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <!-- Always visible links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home<i class="fa fa-fw fa-home"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="skills.html">Skills</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Extremism
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="extremism.html">Exploratory Data Analysis</a></li>
+                                <li><a class="dropdown-item" href="extremism_insight.html">Age and Climate</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Malaria
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="mosquito.html">Exploratory Data Analysis</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Climate Finance
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="eurostock.html">How have European cities changed?</a></li>
+                                <li><a class="dropdown-item" href="eurostock_insight.html">Munich under the microscope</a></li>
+                                <li><a class="dropdown-item" href="germany.html">Rainfall Modelling in Germany</a></li>
+                                <li><a class="dropdown-item" href="solar.html">Solar Summers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+                </nav>
+
+                <!-- Dynamic content below the navbar -->
+                <div class="container main-content">
+                </div>
+            </div>
+        </main>
+    </div>
+  
+<section>
+<div class="container reveal">
+<h1>The generational axis on climate thinking</h1>
+</div>
+</section>
+
+
+<section>
+<div class="container reveal">
+<h2>How does age effect political opinions and views on climate change?</h2>
+<p>Following on from my exploratory data analysis in part 1, I now looked to formulate a research question. I was particularly interested in the link between age and political beliefs - with particular focus on climate views. There is an increasingly established viewpoint that young people are more engaged with tackling the climate crisis that older generations. Read on to discover whether this is truly the case in my dataset...</p>
+<img src="extremism/climate.JPG" alt="ImageFileNotFound" width="100%" height="auto">
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>Political Leaning</h2>
+<p>On initial impressions, there seems to be a very weak positive correlation between age and right-leaning political ideologies. A significant regression was found (F(1, 1204) = 23.43, p < 0.05), however the R<sup>2</sup> was 0.018 indicating that age accounted for only 0.18% of variance in political ideologies. Expectedly, political beliefs as a whole are too diverse to be oversimplified as a product of age.</p>
+<div id="Age-Political_Leaning" style="width: 100%; height: 500px;"></div>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>Attitudes towards climate change</h2>
+<p>As demonstrated above, there is little explanatory relationship between age and political leaning. Therefore, I observed the effect of age on the survey question : do you a) Strongly approve b) Disapprove c) Neither Approve nor Disapprove d) Approve e) Strongly Approve of Climate Action. In order to first understand the range of answers produced in this 2019 survey, I produced the following pie chart visualisation of the data.  </p>
+<div id="climatepiechart" style="width: 100%; height: 500px;"></div>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>How does age effect these views on climate?</h2>
+<p>With the data distribution characterised, I now needed to find a method to link the quantitative discrete variable of age to the ordinal ranked data of approval on climate action. First, I created a ranking system as follows: 1) Strongly disapprove, 2) Disapprove 3) Neither Approve nor Disapprove 4) Approve 5) Strongly Approve. Using this hierarchy, I could then run logit ordinal regression using the python statsmodels package. This would assume that there is a latent score dependent on the age variable and for the 5 answer categories there are 4 thresholds along the latent score axis. Depending on where the latent score lies, the model can categorise the age into the most likely answer category using a link function - giving the probability of the individual belonging to a certain category or lower ones. Using these link functions, I can visualise the effects of age on survey answers. Evenidently, as age increases, the likelihood of answering with approval / strong approval decreases whilst disapproval / strong disapproval increases. This is emphasised as the age coefficient of -0.0066 was statistically significant (SE = 0.002, p< 0.05) <b>Essentially, the model found that as age increased, survey respondents were less in favour of taking action against climate change. </b></p>
+<div id="climatemultiline" style="width: 100%; height: 500px;"></div>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>How about views on climate accountability?</h2>
+<p>I also discovered a second climate-related question in the dataset - prompting participants to share their views on whether climate change is man-made. To ensure that the answers to the first question were not misrepresenting the effect of age on climate, I decided to run a second ordinal logit regression test. To begin with, I again investigated the distribution of survey responders' answers - visualising them in the following pie chart.</p>
+<div id="piechartclimateresponsibility" style="width: 100%; height: 500px;"></div>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>Can age also predict the likelihood of taking climate accountability?</h2>
+<p>Again, I created an ordinal ranking for survey answers: 1) Strongly disagree 2)  Disagree 3) Neither agree or disagree 4) Agree 5) Strongly agree. The results below again highlight the effect of age on taking responsibility for climate change - as age increases, the probability of answering agree/strongly agree to the question decreases whilst the probability of answering disagree / strongly disagree increases. This is again emphasised as the age coefficient of -0.0011 was statistically significant (SE = 0.002, p< 0.05)<b> As age increases, the sense of climate accountability also decreases in survey respondents</b></p>
+<div id="climateresponsibilitymultiline" style="width: 100%; height: 500px;"></div>
+</div>
+</section>
+
+<section>
+    <div class="container reveal">
+    <h2>Climate accountability and climate action</h2>
+    <p>Due to the similar behaviour of these two variables, I was interested to see their cooccurrences. I therefore used the pandas library crosstab function to take counts across both columns. This demonstrates the similarity in the survey respondents' answers - clearly a sense of climate accountability is linked to the approval of taking climate action. </p>
+    <div id="climatemat" style="width: 100%; height: 500px;"></div>
+    </div>
+    </section>
+    <section>
+        <div class="container reveal">
+        <h2>Conclusion</h2>
+        <p>To summarise, there are many reasons to be optimistic about survey respondents in 2019. Over half of the answers to both questions approved and agreed on taking climate action and the man-made causes behind it. Interestingly, the viewpoint that young people are more climate aware and conscious does indeed seem to be represented in this dataset. This may not be representative of the whole population demographics as this is only a sample size, taken 5 years before the time of writing, however it does seem to implicate an age-related component towards climate consciousness. </p>
+        </div>
+        </section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src = "generaluse/navbar.js"> </script>  
+<script src = "generaluse/heatmap.js"></script>
+<script src = "generaluse/pie.js"></script>
+<script src = "generaluse/regression.js></script>
+<script src = "generaluse/multilinechart.js"></script>
+<script src = "generaluse/reveal.js"></script>
+<script>
+
+drawregression('extremism/agepolscatter.csv', 'Age-Political_Leaning','Effect of age on political leaning', 'Age', 'Political Leaning', -0.7703, 0.0050, 'YES');
+drawpie('extremism/climateactionpie.csv', 'climatepiechart','Approval of governmental climate action', 'NO', {'Strongly disapprove': '#AD1F1F', 'disapprove': '#C06363', 'Neither approve or disapprove': '#8F8C8C', 'Approve': '#86A486', 'Strongly Approve': '#468949' });
+drawmultilinechart('extremism/predprobsclimate.csv', 'climatemultiline', '#ffffff', '#000000', 'Effect of age on support for Governmental climate action', 'Age', 'NO', {'Strongly disapprove': '#AD1F1F', 'disapprove': '#C06363', 'Neither approve or disapprove': '#8F8C8C', 'Approve': '#86A486', 'Strongly Approve': '#468949'});
+drawpie('extremism/climateactionpiemm.csv', 'piechartclimateresponsibility','Answers to the statement -"Climate change is man-made"', 'NO', {'Strongly disagree': '#157DB7', 'Disagree': '#74ABC9', 'Neither agree or disagree': '#97928F', 'Agree': '#EFA974', 'Strongly agree': '#DF6609' });
+drawmultilinechart('extremism/predprobsclimatemm.csv', 'climateresponsibilitymultiline', '#ffffff', '#000000', 'Effect of age on belief that climate change is man-made', 'Age', 'NO',  {'Strongly disagree': '#157DB7', 'Disagree': '#74ABC9', 'Neither agree or disagree': '#97928F', 'Agree': '#EFA974', 'Strongly agree': '#DF6609' });
+drawheatmap('extremism/climatemat.csv', 'climatemat', 'Heatmap of human causes behind climate change and approval of govermental action', 'Climate Action Policies', 'Climate change is man-made');
+</script>
+</body>
