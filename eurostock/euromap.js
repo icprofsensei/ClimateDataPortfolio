@@ -4,7 +4,7 @@ function draweuromap(file, element, title, subtitle){
     const topology = await fetch(
         'https://code.highcharts.com/mapdata/custom/europe.topo.json'
     ).then(response => response.json());
-    const path = `file`
+    const path =file
     const data = await fetch(path
         
     ).then(response => response.json());
