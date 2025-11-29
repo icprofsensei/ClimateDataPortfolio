@@ -3,6 +3,7 @@ section{
     display: flex;
     justify-content: left;
     align-items: center;
+    width: 100%;
     background-color:rgb(255, 255, 255);
     background-size: 8em 8em;
     background-image: radial-gradient(circle, #587ce6 0.06em, #fcfcfc 1px);
@@ -50,7 +51,7 @@ section .text-container{
 .sideimg{
     width: 300px;
     height: auto;
-    max-width: 50%;
+    max-width: 100%;
     display: block;
     margin-left: 20px;
     margin-bottom: 20px;
