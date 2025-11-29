@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html>
+  
+<head>
+    <link href='generaluse/base.css' rel='stylesheet'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js'></script>
+    <script src='https://cdn.anychart.com/releases/8.13.0/js/anychart-bundle.min.js'></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="//d3js.org/d3.v3.min.js"></script>
+    <title>Extremism</title>
+</head>
+
+
+<body>
+<div class="wrapper">
+        <main>
+            <div class="wrapper_inner">
+                <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                          </button>
+                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <!-- Always visible links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home<i class="fa fa-fw fa-home"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="skills.html">Skills</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Extremism
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="extremism.html">Exploratory Data Analysis</a></li>
+                                <li><a class="dropdown-item" href="extremism_insight.html">Age and Climate</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Malaria
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="mosquito.html">Exploratory Data Analysis</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Climate Finance
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="eurostock.html">How have European cities changed?</a></li>
+                                <li><a class="dropdown-item" href="eurostock_insight.html">Munich under the microscope</a></li>
+                                <li><a class="dropdown-item" href="germany.html">Rainfall Modelling in Germany</a></li>
+                                <li><a class="dropdown-item" href="solar.html">Solar Summers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+                </nav>
+
+                <!-- Dynamic content below the navbar -->
+                <div class="container main-content">
+                </div>
+            </div>
+        </main>
+    </div>
+  
+<section>
+<div class="container reveal">
+<h1>A very interesting facebook ad...</h1>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>The UK extremism and life experience survey</h2>
+<p>Conducted in 2019, a facebook ad survey investigated the demographic backgrounds, political leanings and belief systems of UK residents aged 16 and up. This dataset is publicly available on the Harvard Dataverse website <a href = "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/ICTI8T">here</a> and contains 333 features with 4222 responses. In this first stage, I will conduct exploratory data analysis on this dataset to determine the various demographic distributions and overall correlations observed between political leanings and survey answers.</p>
+<img src="extremism/extremism.jpg" alt="ImageFileNotFound" width="100%" height="auto">
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>Extremism in the UK</h2>
+<p>One interesting component in this survey is that participants were asked 10 questions on violence with the intention of revealing their 'extremism' by taking a mean score from their ten answers. I believe that this term should be reworded as 'belief in the efficacy of violence' since based on the questions asked, the participant could not reveal extremist opinions - only the value of violence in reaching these goals. Therefore, for the purpose of this study, I will refer to 'extremism' - which is a very loaded term - as 'Belief in the efficacy of violence' since this more accurately summarises what participants were asked. </p>
+<p> Political leanings were also taken during this survey as determined by governmental policy-related questions: I felt that these were accurately termed given the nature of the questions and so will continue to refer to this as 'Political Leaning'. </p> 
+<p>Throughout the survey, various demographic factors were measured including religion and ethnicity. For the purpose of data integrity, I will not draw associations between these factors and political leanings/answers to survey questions. These small-sample based associations are firstly not representative of large, complex societal groups and secondly may lead to harmful and misinformed judgements.</p>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>What age were facebook users in 2019?!</h2>
+<p>From the small sample size who answered the survey in question, we can observe the age distribution of survey respondents. Interestingly, we can see that the majority of respondents were aged...</p>
+<div id="Age" style="width: 100%; height: 500px;"></div>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>Income brackets</h2>
+<p>Survey respondents also provided information on their annual income. The data forms a right skewed distribution with the majority of respondents earning ...</p>
+<div id="Income" style="width: 100%; height: 500px;"></div>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>Religious Beliefs</h2>
+<p>majority declined to provide a religious belief. From those that did, the following pie chart can be drawn.</p>
+<div id="Religion" style="width: 100%; height: 500px;"></div>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>Education Level</h2>
+<p>The highest level of education an individual reached was also recorded during the survey. From those that chose to provide this information, the following distribution can be drawn:</p>
+<div id="Education" style="width: 100%; height: 500px;"></div>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>Association between political leaning and extremism score</h2>
+<p>The 'Belief in the Efficacy of Violence' score can be measured in comparison to the political leaning of survey participants, however, the sample size is far smaller hence it is difficult to draw meaningful takeaways from the following distributions. The sample size here is far reduced from the overall survey participants since multiple missing values were found in either column, thus preventing particular entries from being included. </p>
+<div id="Extremism-Politics" style="width: 100%; height: 500px;"></div>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>Conclusion</h2>
+<p>Now that I have outlined some of the key statistical distributions in the dataset alongside the demographic trends and patterns, I can begin designing a suitable question to answer in part 2 of this project.</p>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2>Behind the analysis</h2>
+<p>To better understand the dataset used here, I have provided a sample of the first 10 rows as an example.</p>
+<div class="table-container">
+<table id="Tablefragment" border = "1"><tbody></tbody></table>
+</div>
+</div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src = "generaluse/navbar.js"> </script>
+<script src = 'generaluse/scatter.js'></script>
+<script src = 'generaluse/table.js'></script>
+<script src = 'generaluse/pie.js'></script>
+<script src = 'generaluse/bar.js'></script>
+<script src = 'generaluse/histo.js'></script>
+<script src = 'generaluse/reveal.js'></script>
+<script>
+drawhisto('extremism/age.csv', 'Age', '#000000', 'Age of survey participants', 'Age')
+drawbar('extremism/incomebar.csv', 'Income','Annual income for survey participants')
+drawpie('extremism/religionpie.csv', 'Religion','Religious Beliefs of survey participants')
+drawpie('extremism/qualificationpie.csv', 'Education','Highest level of education reached by survey participants')
+drawscatter('extremism/polextscatter.csv', 'Extremism-Politics','Scatter plot of participant political leaning and participant belief in the efficacy of violence', 'Political leaning', 'Belief in the efficacy of violence')
+tablepop(document.getElementById('Tablefragment').querySelector('tbody'), 'extremism/fragment.csv')
+</script>
+</body>
+</html>
