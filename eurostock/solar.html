@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+{% block title %}Article{% endblock %}
+{% block content %}
+
+<head>
+{% load static %}
+<link href='{% static "generaluse/base.css" %}' rel='stylesheet'>
+<link href='{% static "eurostock/add.css" %}' rel='stylesheet'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js'></script>
+<script src='https://cdn.anychart.com/releases/8.13.0/js/anychart-bundle.min.js'></script>
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/modules/marker-clusters.js"></script>
+<script src="https://code.highcharts.com/modules/coloraxis.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/maps/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/themes/adaptive.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+<script src="https://marketing-demo.s3-eu-west-1.amazonaws.com/densityFunction/processDensity.js"></script>
+</head>
+
+<body>
+
+<section>
+<div class="container reveal">
+<h1 style = "text-align: center">The European rise in solar power</h1>
+<img src="{% static 'eurostock/solar.jpg' %}" alt="ImageFileNotFound" width="100%" height="auto">
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Introduction</h2>
+<p style = "text-align: left">In the past I have continually painted an ominous outlook for the extreme weather patterns threatening European urban economies. In the news in general, it is easy to be swept away entirely with the
+     threats from wildfires, draught and food security. 
+</p> 
+<p style = "text-align: left">With the same token, it is also important to reflect cautious optimism when signs of progress can be seen. That is not to ignore the global climate emergency
+,where countries across the globe are posed with an increasing need for climate adaptation, but that governments and systems are responding positively in some regards to these dangers. </p> 
+<p style = "text-align: left"> As part of my ongoing projects studying European urban economies and their responses to our changing climate, I wanted to present these global trends through the lens of Europe. 
+    Despite enduring one of the deadliest, most expensive and damagings Summers in 2025, I would like to highlight some of the shoots of progress becoming visible now.</p>
+</div> 
+</section>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">How hot was Summer 2025?</h2>
+<div style = "height: 500px" id = "maxtemp2025"></div>
+<p style = "text-align: left">Summer 2025 saw an extreme heatwave sweep across Europe, with numerous heat-domes forming prolonged hot weather across much of the continent. June saw an intense heatwave hit record breaking levels in many locations across Spain, Portgual, France, Italy and Germany 
+     (<a href = "https://theconversation.com/2025s-first-summer-heatwave-was-early-and-deadly-for-all-of-western-europe-261043">The conversation, 16/7/25</a>) causing an estimated 2300 deaths. As the graph above displays, for portions
+     of June and August, temperatures reached an average of 30 degrees across all sites in the ECAD dataset. This highlights the intensity of the heatwave, particularly since many sites reached maximum daily temperatures above 40 degrees.
+</p> 
+</div>
+</section>
+
+<section>
+<div class="container reveal" id = "starter">
+<h2  style = "text-align: center">How many exceptionally hot days occurred?</h2>
+<div style = "height: 500px" id = "over352025"></div>
+<p style = "text-align: left">A visual representation of this can be seen above. The bar chart displays the number of sites in the ECAD dataset across Europe where maximum daily temperature was above 35 degrees.
+  There are distinct peaks corresponding to the aforementioned heatwaves across June and August (as well as a smaller July heatwave) when heat domes formed across Europe. As climate change impacts jet streams, areas of high pressure can sit over an area on the earth's surface 
+  for prolonged time periods (<a href = "https://www.rmets.org/metmatters/what-heat-dome">Met Matters, 15/11/25</a> ). To understand how unprecedented these increasingly warm summers are, <b>click the button below</b> to watch an animation 
+  of European summer temperatures from 2015 to the present day. Importantly, the data fixates on May-September to cover the breadth of weather across European summer months and again displays a count of the number of sites surpassing 35 degrees celcius.
+</p> 
+<button style = "left: 30%; position: relative"" onclick="YearAnimation()">Rise in extreme heat animation</button>
+</div>
+</section>
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Examining energy across Europe:</h2>
+<p style = "text-align: left"> This rise in European Summer temperatures often means that there is an increase in energy demands for cooling solutions in homes and businesses. As demonstrated in the figure above, this 
+  energy demand seems on course to rise as European countries grapple with extreme summer heat. To understand how European grids are responding to these demands, I utilised the datasets provided by Ember 
+  <a href = "https://ember-energy.org/data/yearly-electricity-data/">(Yearly Electricity Data, Ember, Accessed 13/11/25)</a> and <a href = "https://ember-energy.org/data/monthly-electricity-data/"> (Monthly Electricity Data,Ember
+    Accessed 14/11/25)</a>. Ember collate global energy datasets from a diverse range of available resources and make their datasets openly available - both via API and csv access. Using their documentation, one can understand
+    the definitions used by Ember via the diagram below.
+</p> 
+<div style = "height: 500px" id = "sunburst"></div>
+</div>
+</section>
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">How did European energy generation respond?</h2>
+<div style = "height: 500px" id = "twh_aggfuels"></div>
+<p style = "text-align: left">
+  As the graph above demonstrates, whilst most forms of energy generation remain relatively constant throughout the year to date, there are two interesting patterns which emerge. Gas fuel usage reduced in summer 2025 whilst - at the same time-
+  solar energy generation also rose simultaneously - capitalising on the natural, seasonal increase in hours of available sunshine. This indicates that European countries are beginning to meet Summer energy demands through 
+  solar power energy generation, at the expense of the carbon dioxide emitting, gas fossil fuel. 
+</p>
+</div>
+</section>
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">What was the composite makeup of energy generation?</h2>
+<div style = "height: 500px" id = "fuels_25_perc"></div>
+<p style = "text-align: left">
+The same trend is highlighted through proportion of fuel usage across Europe. As the northern hemisphere summer brings increased sunshine hours, governments are capitalising on this abundant energy resource through 
+increased solar power generation as a component of overall energy. The evident bulge in solar power generation demonstrates that solar power generation is moving from a simple small-scale form of energy generation 
+used in small properties and devices, to a method of large-scale, grid-supporting energy generation across periods of high sunshine.   
+</p>
+</div>
+</section>
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">How have fuel compositions shifted?</h2>
+<div style = "height: 500px" id = "fuels_alltime_perc"></div>
+<p style = "text-align: left">
+  This is most acutely demonstrated in the graph above. When observing the year-by-year trends in energy generation, it becomes evident that momentum is building behind solar power generation across Europe. 
+  As the net proportion of coal energy generation has decreased in recent years, there has been a dramatic rise in renewables such as wind and solar, which are now comprising an increasing component of overall
+  European energy generation. With this public sector shift towards renewables - and in particular solar - it would be expected that this would also be observable in the private sector, through supplying the panels,
+  materials and grid infrastructure to support these changes. 
+</p>
+</div>
+</section>
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Success study 1: First Solar</h2>
+<div style = "height: 500px" id = "fslr"></div>
+<p style = "text-align: left">
+Although fundamentally a US company, First Solar are a global photovoltaic cell (PV) manufacturer who operate across Europe too with offices in Frankfurt, Germany. They are the largest Solar PV cell manufacturer in the western hemisphere, specialising in thin film technology 
+over silicon panels.  Whilst they dominate North American markets, <a href = "https://www.maysunsolar.com/blog-top-10-global-photovoltaic-module-manufacturers-in-2025/">they are yet to fully capture a large proportion of the European market
+   </a>. Despite this, as the graph above demonstrates (depicting their adjusted opening share price), their share price has continued to rise - indicative of global momentum behind solar power. With the growth of solar power generation
+   across Europe, it is likely that their thin-film technology will rise in long-term value.
+</p>
+</div>
+</section>
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Success study 2: Nextpower</h2>
+<div style = "height: 500px" id = "nxt"></div>
+<p style = "text-align: left">
+Nextpower provide logistical support for solar deployment. As demand for solar energy has risen, their services in design, deployment and operations will also prove essential in Europe. Nextpower so far have enabled 11GW of energy capacity across 
+<a href = "https://nextpower.com/company/europe">Europe </a> and they run over 200 projects across 15 countries in Europe. Their products include trackers, software and module control systems to provide the technical 
+logistic support required for large-scale solar projects. 
+</p>
+</div>
+</section>
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Conclusion</h2>
+<p style = "text-align: left">
+Overall, this article demonstrates that in a changing world, European governements are beginning to respond to some of the opportunities presented with our shifting seasons. 
+By increasing large-scale energy generation in the Summer months through solar power, governments can become less reliant on fossil fuels. I have identified two stocks displaying impressive growth in Nextpower and First Solar,
+indicating the global momentum behind solar energy generation. As this technology becomes more and more established across Europe (as the data indicates it may), there will be growing financial opportunities through investment 
+in solar stocks such as the ones above.
+</p>
+</div>
+</section>
+<section>
+<div class="container reveal">
+<h2 style = "text-align: center">The broader study</h2>
+<p style = "text-align: center">Oxford Economics have created an international ranking of the 1000 largest urban economies. Amidst a number of different metrics, Oxford economics assesses economics, human capital, quality of life,
+   environment and governance. My goal is to firstly assess the biggest European urban economies (which are therefore more likely to influence global financial markets the most) and then to investigate how regional 
+  climate change may effect renewables' stocks and shares. </p>
+<p style = "text-align: center">Here are the top 20 European cities based on the economics metrics:</p>
+<p>View the full source data and report <a href = "https://www.oxfordeconomics.com/global-cities-index/">here</a></p>
+<div id="euromapcontainer"></div>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2 style = "text-align: center">What comes next?</h2>
+<p style = "text-align: center">As this fourth chapter demonstrates, there are opportunities as well as challenges facing Europe amidst the climate chaos but there are reasons to be optimistic too.</p>
+<p style = "text-align: center"> Coming up next, I want to drill down further into the state of the solar industry and understand the financial factors influencing which solar stocks will benefit most from the inevitable shift
+  towards renewables. 
+</p>
+<h2  style = "text-align: center">Data Sources</h2>
+<p style = "text-align: center">Full data can be found on ECAD (European Climate Assessment & Dataset) - accessed 25/10/25, found <a href ='https://www.ecad.eu/dailydata/predefinedseries.php' >here</a>
+“We acknowledge the data providers in the ECA&D project. Klein Tank, A.M.G. and Coauthors, 2002. Daily dataset of 20th-century surface air temperature and precipitation series for the European Climate Assessment. Int. J. of Climatol.,
+     22, 1441-1453. Data and metadata available at https://www.ecad.eu”</p>
+</div>
+</section>
+
+<script src = '{% static "eurostock/euromap.js" %}'></script>
+<script src = '{% static "eurostock/polarscsvline.js" %}'></script>
+<script src = '{% static "eurostock/polarscsvbar.js" %}'></script>
+<script src = '{% static "eurostock/polarscsvarea.js" %}'></script>
+<script src = '{% static "eurostock/polarscustom_multibar.js" %}'></script>
+<script src = '{% static "generaluse/reveal.js" %}'></script>
+<script src = '{% static "generaluse/sunburst.js" %}'></script>
+<script>
+drawlinefromcsv("eurostock/data/maxtemp2025.csv", 'maxtemp2025', 'Time Series of maximum temperature in 2025 so far', 'Day', 'Average Maximum Daily Temperature across Europe', '#d54033', 'DATE', ['TX_MEAN']) ;
+drawbarfromcsv("eurostock/data/over352025.csv", 'over352025', 'Bar chart of days over 35 degrees in 2025', 'Day', 'Number of sites where Maximum Daily Temperature across Europe is over 35 degrees', '#d5a333', 'DATE',
+['SITE_COUNT_OVER_35']);
+drawsunburst('sunburst', 'Energy categorisation by Ember', [
+  {name: "Total Generation", value: 100, children: [
+     {name: 'Nuclear', value: 15, color: "#A23B72"},
+    {name: "Renewables", value: 45, color: "#1B998B", children: [
+      {name: "Wind and Solar", value: 12, color: "#F46036", children:[
+          {name: 'Wind', value: 6, color: "#5B8C5A"},
+          {name: 'Solar', value: 6, color: "#F9C846"}
+      ]},
+      {name: "Hydro, Bioenergy and Other Renewables", value: 33, color: "#C5D86D", children:[
+          {name: 'Hydro', value: 11, color: "#4ECDC4"},
+          {name: 'Bioenergy', value: 11, color: "#FF6B6B"},
+          {name: 'Other Renewables', value: 11, color: "#6A0572"}
+      ]}
+    ]},
+    {name: "Fossil", value: 50, color: "#D1495B", children: [
+      {name: "Coal", value: 20, color: "#6D6875"},
+      {name: "Gas and Other Fuels", value: 30, color: "#FF9F1C", children:[
+          {name: 'Gas', value: 15, color: "#E76F51"},
+          {name: 'Other Fossil', value: 15, color: "#264653"}
+      ]}
+    ]}
+  ]}
+],
+{
+'Wind':'#80d3f1',
+'Other Fossil':'#7aa1b0',
+'Gas':'#ff905d',
+'Other Renewables':'#78ff5d', 
+'Solar': '#ead80d', 
+'Hydro': '#0d72ea',
+'Bioenergy': '#55a012',
+'Nuclear': '#119b91',
+'Coal': '#9b1182'})
+drawlinefromcsv("eurostock/data/agg_fuels_25_twh.csv", 'twh_aggfuels', 'Aggregate Fuel usage for 2025 so far across Europe / TWh', 'Month', 'Fuel usage / TWh', [
+'#80d3f1',
+'#7aa1b0',
+'#ff905d',
+'#78ff5d', 
+'#ead80d', 
+'#0d72ea',
+'#55a012',
+'#119b91',
+'#9b1182'
+], 'Date', ['Wind','Other Fossil','Gas','Other Renewables',
+'Solar','Hydro','Bioenergy','Nuclear','Coal']) ;
+drawareafromcsv("eurostock/data/fuels_25_perc.csv", 'fuels_25_perc', 'Fuel usage proportion for 2025 so far across Europe', 'Month', 'Fuel usage / %', [
+'#80d3f1',
+'#7aa1b0',
+'#ff905d',
+'#78ff5d', 
+'#ead80d', 
+'#0d72ea',
+'#55a012',
+'#119b91',
+'#9b1182'
+], 'Date', ['Wind','Other Fossil','Gas','Other Renewables',
+'Solar','Hydro','Bioenergy','Nuclear','Coal']) ;
+drawareafromcsv("eurostock/data/fuels_alltime_perc.csv", 'fuels_alltime_perc', 'Fuel usage proportion across Europe over time', 'Year', 'Fuel usage / %', [
+'#80d3f1',
+'#7aa1b0',
+'#ff905d',
+'#78ff5d', 
+'#ead80d', 
+'#0d72ea',
+'#55a012',
+'#119b91',
+'#9b1182'
+], 'Year', ['Wind','Other Fossil','Gas','Other Renewables',
+'Solar','Hydro','Bioenergy','Nuclear','Coal']) ;
+draweuromap('eurostock/data/top20cities.json','euromapcontainer','Top European Urban Economies ','Source: Oxford Economics, Accessed: 20/07/25, (Cities are mapped to nearest weather stations)');
+drawlinefromcsv("eurostock/data/fslr.csv", 'fslr', 'Time Series of adjusted opening price for FSLR', 'Day', 'Adjusted Opening Price', '#b8a626', 'date', ['FSLR']) ;
+drawlinefromcsv("eurostock/data/NXT.csv", 'nxt', 'Time Series of adjusted opening price for NXT', 'Day', 'Adjusted Opening Price', '#d6cc08', 'date', ['NXT']) ;
+
+</script>
+</body>
+{% endblock %}

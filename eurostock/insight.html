@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+{% block title %}Article{% endblock %}
+{% block content %}
+<head>
+{% load static %}
+<link href='{% static "generaluse/base.css" %}' rel='stylesheet'>
+<link href='{% static "eurostock/add.css" %}' rel='stylesheet'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js'></script>
+<script src='https://cdn.anychart.com/releases/8.13.0/js/anychart-bundle.min.js'></script>
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/modules/marker-clusters.js"></script>
+<script src="https://code.highcharts.com/modules/coloraxis.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/maps/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/themes/adaptive.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+<script src="https://marketing-demo.s3-eu-west-1.amazonaws.com/densityFunction/processDensity.js"></script>
+</head>
+<body>
+<section>
+<div class="container reveal">
+<h1 style = "text-align: center">Putting Munich under the microscope</h1>
+<img src="{% static 'eurostock/munich.jpg' %}" alt="ImageFileNotFound" width="100%" height="auto">
+</div>
+</section>
+<main>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Introduction</h2>
+<p style = "text-align: center">Following on from my previous data article on the topic, I needed to adjust weather forecasting for seasonal variation whilst also accounting for a wider variety of data sources for climactic extremes. Therefore, for this next installmant, I developed a python pipeline which parsed data from the ECAD dataset on temperature (minimum, maximum and average), rainfall and windspeed (average and maximum gust) for daily records. In order to demonstrate my pipeline's efficacy, I wanted to display key findings by highlighting an important case study. </p>
+
+
+</section>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Why Munich?</h2>
+<p style = "text-align: center">As the table below demonstrates, Munich has the fifth largest European urban economy - this makes it an important city for studying the impacts of climate variability. It also has highly complete weather records dating back to 1985, making it an ideal case-study for more robust model building. Importantly, Germany have a net zero target of 2045 (which is 5 years ahead of the UK) which may make Berlin more resilient in the face of these climate extremities. This serves to highlight the extent of investment other urban economies may require in infrastructure, agriculture, disaster response and urban planning when faced with more extreme weather conditions. </p>
+<div class="table-container">
+<table>
+    <tr>
+        <th>City</th>
+        <th>Country</th>
+        <th>Economics Score</th>
+    </tr>
+    <tr>
+        <td>London</td>
+        <td>United Kingdom</td>
+        <td>83.6</td>
+    </tr>
+    <tr>
+        <td>Paris</td>
+        <td>France</td>
+        <td>81.2</td>
+    </tr>
+    <tr>
+        <td>Copenhagen</td>
+        <td>Denmark</td>
+        <td>76.3</td>
+    </tr>
+    <tr>
+        <td>Dublin</td>
+        <td>Ireland</td>
+        <td>75.0</td>
+    </tr>
+    <tr>
+        <td>Munich</td>
+        <td>Germany</td>
+        <td>71.7</td>
+    </tr>
+    <tr>
+        <td>Stockholm</td>
+        <td>Sweden</td>
+        <td>71.4</td>
+    </tr>
+    <tr>
+        <td>Oslo</td>
+        <td>Norway</td>
+        <td>71.2</td>
+    </tr>
+    <tr>
+        <td>Hamburg</td>
+        <td>Germany</td>
+        <td>70.6</td>
+    </tr>
+    <tr>
+        <td>Geneva</td>
+        <td>Switzerland</td>
+        <td>70.5</td>
+    </tr>
+    <tr>
+        <td>Zurich</td>
+        <td>Switzerland</td>
+        <td>70.0</td>
+    </tr>
+    <tr>
+        <td>Brussels</td>
+        <td>Belgium</td>
+        <td>69.8</td>
+    </tr>
+    <tr>
+        <td>Berlin</td>
+        <td>Germany</td>
+        <td>69.5</td>
+    </tr>
+    <tr>
+        <td>Luxembourg City</td>
+        <td>Luxembourg</td>
+        <td>68.9</td>
+    </tr>
+    <tr>
+        <td>Amsterdam</td>
+        <td>Netherlands</td>
+        <td>67.9</td>
+    </tr>
+    <tr>
+        <td>Madrid</td>
+        <td>Spain</td>
+        <td>67.4</td>
+    </tr>
+    <tr>
+        <td>Vienna</td>
+        <td>Austria</td>
+        <td>67.1</td>
+    </tr>
+    <tr>
+        <td>Helsinki</td>
+        <td>Finland</td>
+        <td>65.5</td>
+    </tr>
+    <tr>
+        <td>Prague</td>
+        <td>Czech Republic</td>
+        <td>65.0</td>
+    </tr>
+    <tr>
+        <td>Rotterdam</td>
+        <td>The Netherlands</td>
+        <td>64.4</td>
+    </tr>
+    <tr>
+        <td>Frankfurt</td>
+        <td>Germany</td>
+        <td>64.2</td>
+    </tr>
+    
+</table>
+</section>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Smoothing out the daily variability</h2>
+<p>One challenge with modelling (and subsequently forecasting) climactic conditions is the impact of seasonal variation. Linear modelling falls short for a number of reasons - predominantly due to the plethora of external variables (such as the AMOC = Antlantic Meridonal Overturning Circulation which is responsbile for much of the European weather patterns). In order to reduce the effect of some of these short term fluctuations, I created moving average records for each of the variables being studied across a 5 day window.</p>
+<p>To interact with the figures below, click on the figure legend to see patterns for variables separately. Remove the effect of maximum and minimum variables to see overall trends more clearly. </p>
+<div  style = "height: 600px" id = "tempact"></div>
+<div id = "rainact"></div>
+<div id = "windact"></div>
+</div>
+</section>
+
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Adjusting for seasonal variation</h2>
+<p>As demonstrated above, there are clear limitations to an overall linear model since it fails to capture the majority of within year variation. In order to improve the standard linear model, I used a backdating method to construct individual linear models for each day of the year. For example, across my dataset, I examined every single 1st Jan to determine the specific trends for each variable. This allowed me to model how one specific day of the year had changed. Whilst computationally intensive, this enabled me to create forecast 'expected' conditions for each day of the year based on the historical trends. Although there may still be significant variation around these expected conditions, this type of modelling is certainly more informative than standard linear modelling techniques. </p>
+<div style = "height: 600px" id = "temppred"></div>
+<p>Expectedly, with increased greenhouse gas emissions globally as well as regionally, more heat is trappd on the earth's surface. Munich suffers rising temprature coefficients for almost every day of the year. This results in the overall warming depicted above.</p>
+<div id = "rainpred"></div>
+<p>Conceringly for rain, there seems to be a convex nature to the expected rainfall line where seasonal variability seems to reduce around 2006 before continuing to increase into 2025. The reason why this is so concerning is not just that more extreme rainfall patterns may increase the risk of flooding and drought. Additionally, the results shown above are caused by rainfall coefficients moving in opposite directions across multiple days of the year - highlighting a shift in seasonality. This may result in major challenges to German agriculture where harvests may occur earlier or later than expected, ultimately disrupting the food supply chain and potentially increasing consumer prices. </p>
+<div id = "windpred"></div>
+<p>Similarly to temperature, there appears to be an overall increase in windspeeds. This may actually signify an opportunity for wind farms to increase in productivity around Munich, potentially aiding Germany's objective of reaching net zero by 2045. On the flipside, it also indicates the presence of more frequent gale-force/storm winds which may inflict damage to infrastruture. </p>
+
+</div>
+</section>
+
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Overall: Extreme Weather Events are on the rise</h2>
+<p style = "text-align: center">To utilise these new seasonality-adjusted forecasts for expected weather conditions, I calculated deviations between expected conditions and the weather on each day. This enabled me to generate a pipeline which could calculate the number of days when an extreme weather event was detected - be that wind, temperature or rainfall related. I then aggregated these extreme days on a year by year basis, to demonstrate the overall change in extreme weather days.</p>
+<p style = "text-align: center">The results below are clear. Even adjusting for increases in temperature and windspeeds alongside the increased variability of rainfall, there is still an increase in extreme weather days. Whilst this highlights the increasing difficulty in making accurate long-term weather forecasts, it also demonstrates that there are two phenomena occurring simultaneously for societies to adjust to.</p>
+<p style = "text-align: center">1. Seasonal patterns are shifting: with warmer winters and summers, windier days and increased drought and flood-risk. This in itself requires governments to invest more in climate resilience in the short-term to safeguard food supply-chains and livelihoods dependent on them.</p>
+<p style = "text-align: center">2. Even within these shifting seasonal patterns, there are more extreme weather conditions too. Sudden heat-waves, wildfires or freezing winters are more likely, alongside storms and flash-flooding. This again requires investment, particularly in infrastructure and advanced warning systems to allow people and businesses to better prepare.</p>
+
+<p>These results in Munich highlight both areas for opportunity and concern. With a proactive approach, governments can begin to safeguard infrastructure and supply chains for years into the future as weather conditions continue to fluctuate more unpredictably. On top of this, there are also opportunities to expand into new agricultural niches as shifting climates offer opportunities for formerly hard-to-grow crops, as well as to generate more energy using wind power for instance. </p>
+<p>On the other hand, these extreme weather events are calculated for a strong urban economy in a country with an ambitious net-zero target. One must also consider, resource limitations facing smaller urban economies across Europe and the increased stresses these weather conditions may inflict.</p>
+<div style = "height: 600px" id = "munichfull"></div>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2 style = "text-align: center">The broader study</h2>
+<p style = "text-align: center">Oxford Economics have created an international ranking of the 1000 largest urban economies. Amidst a number of different metrics, Oxford economics assesses economics, human capital, quality of life, environment and governance. My goal is to firstly assess the biggest European urban economies (which are therefore more likely to influence global financial markets the most) and then to investigate how their local climate patterns have shifted. </p>
+<p style = "text-align: center">Here are the top 20 European cities based on the economics metrics:</p>
+
+<p>View the full source data and report <a href = "https://www.oxfordeconomics.com/global-cities-index/">here</a></p>
+<div id="euromapcontainer"></div>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2 style = "text-align: center">What comes next?</h2>
+<p style = "text-align: center">As this second chapter demonstrates, there is clear evidence of seasonality-adjusted extreme weather effecting Munich. Next, I need to zoom out to the continent as a whole and determine whether my methodology is robust enough to highlight the most severe weather extremes and whether more advanced machine-learning approaches could help.</p>
+<h2  style = "text-align: center">Data Sources</h2>
+<p style = "text-align: center">Full data can be found on ECAD (European Climate Assessment & Dataset) - accessed 01/08/25, found <a href ='https://www.ecad.eu/dailydata/predefinedseries.php' >here</a>
+“We acknowledge the data providers in the ECA&D project. Klein Tank, A.M.G. and Coauthors, 2002. Daily dataset of 20th-century surface air temperature and precipitation series for the European Climate Assessment. Int. J. of Climatol.,
+     22, 1441-1453. Data and metadata available at https://www.ecad.eu”</p>
+</section>
+
+</main>
+
+<script src = '{% static "generaluse/reveal.js" %}'></script>
+<script src = '{% static "generaluse/timeseries_sameaxis.js" %}'></script>
+<script src = '{% static "eurostock/euromap.js" %}'></script>
+<script src = '{% static "eurostock/eurofreq.js" %}'></script>
+<script>
+
+    drawtimeseries('eurostock/data/rainactmunich.csv', 'rainact', 'Rainfall time series in Munich', 'Date', 'Rainfall / mm',['#1100ff']);
+
+            drawtimeseries('eurostock/data/tempactmunich.csv', 'tempact', 'Temperature time series in Munich', 'Date', 'Temperature / degrees celcius',['#ff570f']);
+
+        drawtimeseries('eurostock/data/windactmunich.csv', 'windact', 'Windspeed time series in Munich', 'Date', 'Wind speed / ms-1',['#96f8ff']);
+
+
+        drawtimeseries('eurostock/data/rainpredmunich.csv', 'rainpred', 'Seasonality adjusted rain expectations in Munich', 'Date', 'Rainfall / mm',['#1100ff']);
+
+            drawtimeseries('eurostock/data/temppredmunich.csv', 'temppred', 'Seasonality adjusted temperature expectations in Munich', 'Date', 'Temperature / degrees celcius',['#ff570f']);
+
+        drawtimeseries('eurostock/data/windpredmunich.csv', 'windpred', 'Seasonality adjusted windspeeds in Munich', 'Date', 'Wind speed / ms-1',['#96f8ff']);
+
+    drawtimeseries('eurostock/data/52_DE_MUENCHEN_.csv', 'munichfull', 'Time series of extreme weather events in Munich', 'Date', 'Extreme Weather Event Days',['#66ff00', '#ff00f7']);
+
+</script>
+</body>
+{% endblock %}

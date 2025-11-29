@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+{% block title %}Article{% endblock %}
+{% block content %}
+<head>
+{% load static %}
+<link href='{% static "generaluse/base.css" %}' rel='stylesheet'>
+<link href='{% static "eurostock/add.css" %}' rel='stylesheet'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js'></script>
+<script src='https://cdn.anychart.com/releases/8.13.0/js/anychart-bundle.min.js'></script>
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/modules/marker-clusters.js"></script>
+<script src="https://code.highcharts.com/modules/coloraxis.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/maps/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/themes/adaptive.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+<script src="https://marketing-demo.s3-eu-west-1.amazonaws.com/densityFunction/processDensity.js"></script>
+</head>
+<body>
+<section>
+<div class="container reveal">
+<h1>How is climate change effecting major European urban economies?</h1>
+<img src="{% static 'eurostock/athens.jpg' %}" alt="ImageFileNotFound" width="100%" height="auto">
+</div>
+</section>
+<main>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Why does this matter?</h2>
+<p style = "text-align: center">Climate change will become the greatest challenge many of us will face in our lifetimes. It's effects are already being faced rcently - 2025 has seen Spring heat records across Europe smashed. I want to investigate how global financial markets respond to these climate events. To begin this investigation, I want to investigate patterns in changing climate across European cities.</p>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2 style = "text-align: center">Which cities can we focus on?</h2>
+<p style = "text-align: center">Oxford Economics have created an international ranking of the 1000 largest urban economies. Amidst a number of different metrics, Oxford economics assesses economics, human capital, quality of life, environment and governance. My goal is to firstly assess the biggest European urban economies (which are therefore more likely to influence global financial markets the most) and then to investigate how their local climate patterns have shifted. </p>
+<p style = "text-align: center">Here are the top 20 European cities based on the economics metrics:</p>
+<div class="table-container">
+<table>
+    <tr>
+        <th>City</th>
+        <th>Country</th>
+        <th>Economics Score</th>
+    </tr>
+    <tr>
+        <td>London</td>
+        <td>United Kingdom</td>
+        <td>83.6</td>
+    </tr>
+    <tr>
+        <td>Paris</td>
+        <td>France</td>
+        <td>81.2</td>
+    </tr>
+    <tr>
+        <td>Copenhagen</td>
+        <td>Denmark</td>
+        <td>76.3</td>
+    </tr>
+    <tr>
+        <td>Dublin</td>
+        <td>Ireland</td>
+        <td>75.0</td>
+    </tr>
+    <tr>
+        <td>Munich</td>
+        <td>Germany</td>
+        <td>71.7</td>
+    </tr>
+    <tr>
+        <td>Stockholm</td>
+        <td>Sweden</td>
+        <td>71.4</td>
+    </tr>
+    <tr>
+        <td>Oslo</td>
+        <td>Norway</td>
+        <td>71.2</td>
+    </tr>
+    <tr>
+        <td>Hamburg</td>
+        <td>Germany</td>
+        <td>70.6</td>
+    </tr>
+    <tr>
+        <td>Geneva</td>
+        <td>Switzerland</td>
+        <td>70.5</td>
+    </tr>
+    <tr>
+        <td>Zurich</td>
+        <td>Switzerland</td>
+        <td>70.0</td>
+    </tr>
+    <tr>
+        <td>Brussels</td>
+        <td>Belgium</td>
+        <td>69.8</td>
+    </tr>
+    <tr>
+        <td>Berlin</td>
+        <td>Germany</td>
+        <td>69.5</td>
+    </tr>
+    <tr>
+        <td>Luxembourg City</td>
+        <td>Luxembourg</td>
+        <td>68.9</td>
+    </tr>
+    <tr>
+        <td>Amsterdam</td>
+        <td>Netherlands</td>
+        <td>67.9</td>
+    </tr>
+    <tr>
+        <td>Madrid</td>
+        <td>Spain</td>
+        <td>67.4</td>
+    </tr>
+    <tr>
+        <td>Vienna</td>
+        <td>Austria</td>
+        <td>67.1</td>
+    </tr>
+    <tr>
+        <td>Helsinki</td>
+        <td>Finland</td>
+        <td>65.5</td>
+    </tr>
+    <tr>
+        <td>Prague</td>
+        <td>Czech Republic</td>
+        <td>65.0</td>
+    </tr>
+    <tr>
+        <td>Rotterdam</td>
+        <td>The Netherlands</td>
+        <td>64.4</td>
+    </tr>
+    <tr>
+        <td>Frankfurt</td>
+        <td>Germany</td>
+        <td>64.2</td>
+    </tr>
+    
+</table>
+</div>
+<p>View the full source data and report <a href = "https://www.oxfordeconomics.com/global-cities-index/">here</a></p>
+<div id="euromapcontainer"></div>
+</div>
+</section>
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Maximum Temperature: Madrid</h2>
+<p style = "text-align: center">As one of the top 20 largest urban economies in Europe, Madrid has also seen an increase in extreme weather events across recent years. One such topical metric for measuring extreme weather metrics is daily maximum temperature - a metric which has surpassed 40 degrees celsius in recent summers. However, when observing this metric over time, there does not appear to be an evident increase in the daily maximum temperature beyond seasonal variation. </p>
+<div id = "madridavg"></div>
+<p>By observing the annual average for daily maximum temperature, this trend becomes slightly more visible - particularly between the annual minimum and annual maximum. To determine the extent of any changes, linear models must be built.</p>
+
+<div id = "madridfull"></div>
+
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2 style = "text-align: center">Maximum Temperature across Europe</h2>
+<p style = "text-align: center">Using linear modelling across over 8000 weather stations in Europe, I generated coefficient estimates for each linear model for each city's maximum temperature fluctuations. This revealed the following distribution:</p>
+<div id = "maxtemp1"></div>
+<p style = "text-align: center"> It seems initially that the majority of cities show neither increase nor decrease in maximum daily temperature with a few outlying exceptions (possibly caused by limited readings at certain locations). </p>
+<p style = "text-align: center"> Therefore, I examined the linear models at the centre of the frequency distribution where the majority of cities lie.</p>
+<div id = "maxtemp2"></div>
+<p style = "text-align: center"> Now, upon closer examination, it is now clear that the majority of sites fall to the right hand side of the no correlation line: they are indeed warming.</p>
+<p style = "text-align: center"> The Goltz 'Boiling Frog' phenomonon posits that a frog might allow itself to boil if it's surrounding temperature were to increase slowly. The majority of European cities have been slowly and marginally heating for decades. </p>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2 style = "text-align: center">What this means</h2>
+<p style = "text-align: center">As this introductory chapter demonstrates, even on the granular, day-to-day level, there is evidence of warming occuring in Europe. Next, I need to investigate how this warming particularly effects European economic capitals, through extreme weather periods which put increasing strains on a city's infrastructure and resources.</p>
+<h2  style = "text-align: center">Data Sources</h2>
+<p style = "text-align: center">Full data can be found on ECAD (European Climate Assessment & Dataset) - accessed 01/08/25, found <a href ='https://www.ecad.eu/dailydata/predefinedseries.php' >here</a> 
+    “We acknowledge the data providers in the ECA&D project. Klein Tank, A.M.G. and Coauthors, 2002. Daily dataset of 20th-century surface air temperature and precipitation series for the European Climate Assessment. Int. J. of Climatol.,
+     22, 1441-1453. Data and metadata available at https://www.ecad.eu”</p>
+</section>
+
+</main>
+
+<script src = '{% static "generaluse/reveal.js" %}'></script>
+<script src = '{% static "eurostock/timeseries.js" %}'></script>
+<script src = '{% static "eurostock/euromap.js" %}'></script>
+<script src = '{% static "eurostock/eurofreq.js" %}'></script>
+<script>
+    drawfreqdens('eurostock/data/max_temp_corr1.csv',
+     'maxtemp1',
+      'Linear model coefficient between heat and time',
+      'Density', 
+      'Frequency Density of all coefficients \n linking time and daily maximum temperature',
+      'correlation',
+    '#ff8133ff',
+    '#C70039',
+    'Heat-time coefficient'
+);
+    drawfreqdens('eurostock/data/max_temp_corr2.csv',
+     'maxtemp2',
+      'Linear model coefficient between heat and time',
+       'Density',
+        'Frequency Density of central coefficients linking time and daily maximum temperature in Europe',
+    'correlation',
+    '#ff8133ff',
+    '#C70039',
+'Heat-time coefficient');
+    drawtimeseries('eurostock/data/madfinal.csv', 'madridfull', 'Time series of daily trends in maximum temperature in Madrid', 'Date', 'Maximum Temperature','madridavg', 'Time series of yearly trends in maximum daily temperature in Madrid', 'Year', 'Maximum Temperature');
+    draweuromap('eurostock/data/top20cities.json','euromapcontainer','Top European Urban Economies ',
+        'Source: Oxford Economics, Accessed: 20/07/25, (Cities are mapped to nearest weather stations)'
+    )
+</script>
+</body>
+{% endblock %}

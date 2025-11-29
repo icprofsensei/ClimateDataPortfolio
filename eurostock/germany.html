@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% block title %}Article{% endblock %}
+{% block content %}
+
+<head>
+{% load static %}
+<link href='{% static "generaluse/base.css" %}' rel='stylesheet'>
+<link href='{% static "eurostock/add.css" %}' rel='stylesheet'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js'></script>
+<script src='https://cdn.anychart.com/releases/8.13.0/js/anychart-bundle.min.js'></script>
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/modules/marker-clusters.js"></script>
+<script src="https://code.highcharts.com/modules/coloraxis.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/maps/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/themes/adaptive.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+<script src="https://marketing-demo.s3-eu-west-1.amazonaws.com/densityFunction/processDensity.js"></script>
+</head>
+
+<body>
+<section>
+<div class="container reveal">
+<h1 style = "text-align: center">Modelling rainfall in Germany</h1>
+<img src="{% static 'eurostock/germany.JPG' %}" alt="ImageFileNotFound" width="100%" height="auto">
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Introduction</h2>
+<p style = "text-align: center">In my previous articles, I illustrated the trend in extreme weather events rising in Germany - emphasising the growing danger this may pose to agriculture, infrastructure and people's safety. </p> 
+<p style = "text-align: center"> The image above dates to <a href = "https://www.bbc.co.uk/news/world-europe-57846200">Summer 2021</a> in Bad Neuenahr-Ahrweiler, Germany where at least 70 people died in flooding across Germany and Belgium. When extreme rainfall caused nearby rivers to burst their banks, flooding occurred causing property damage, evacuations and tragically loss of life.  </p>
+<p style = "text-align: center">Conversely, <a href = "https://www.dw.com/en/germany-drought-dry-no-rainfall-agriculture/a-72746010">Summer 2025</a> followed one of the driest Springs on record, leading to increased wildfire risk and exceptionally dry topsoil. </p> 
+</section>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">How to model rainfall in Germany?</h2>
+<p style = "text-align: center">Clearly, it is important for Germany to forecast long-term patterns in rainfall. Meteorologists will likely have large and feature-rich datasets to model short-term weather events accurately.</p>
+<p style = "text-align: center">However, I want to investigate whether long term patterns can be predicted by basic features such as longitude, latitude, elevation, and date. </p>
+<p style = "text-align: center">To caveat this, I will look to use classifiers for simple monthly averages to avoid the extreme fluctuations of day-to-day extreme weather events.</p>
+<p style = "text-align: center">To further simplify this, I will try to classify monthly average rainfall into 3 categories: </p>
+<ul style = "text-align: center">
+    <li>1) No/Low rainfall (0-15mm) </li>
+    <li>2) Moderate rainfall (15-40mm) </li>
+    <li>3) Heavy rainfall (40mm+)</li>
+</ul>
+</div>
+</section>
+
+<section>    
+<div class="container reveal">
+<h2  style = "text-align: center">Exploring the data</h2>
+<p>To select the appropriate bin sizes to represent the data, I observed first the distribution of rainfall in Germany across all months and locations.</p>
+<p>The rainfall distribution for Germany in 2025 (for the date range):</p>
+<div id = "raincurrdist"></div>
+<p>The weather stations in Germany used in this study can be viewed here by navigating the mini-map below.</p>
+<div id = 'germanymapcontainer'></div>
+</div>
+</section>
+
+<section>    
+<div class="container reveal">
+<h2  style = "text-align: center">Preparing the data</h2>
+<p>To obtain the appropriate dataset for model training, I filtered out the year 2025 from previous years. This was to highlight the potential disparity and abnormality of our current year for extreme weather events, in comparison to previous years..</p>
+<p>I performed transformations on the raw date date. First, I separated out years from the date, in order to observe long-term trends in rainfall across Germany. However, I also wanted the model to understand seasonal patterns. </p>
+<p>I therefore also utilised month, however, raw encoded months would result in a pattern of: Januray - 1, .... December -12. In reality, for the purposes of forecasting, climate in January and December should be very close together, rather than at oppositng ends of the scale. .</p>
+<p>Hence, I performed a cosine transformation of the month data. I also observed that latitude and height (elevation) were closely correlated, so I created an additional interaction parameter for these two variables. </p>
+<p>Following these transformation steps, the data was suitably clean for model building, training and evaluation.</p>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">XGBoost Modelling</h2>
+<p>Initially, I used an XGBoost model to predict rainfall historically. </p>
+<div style = "height: 850px" id = "xgboostheat"></div>
+<p>To understand the effectiveness of my categoriser, I utilised AUC values - Area Under Curve. </p>
+<p>For each category being predicted, the classifier makes a probability prediction that the category is correct, as opposed to a binary yes/no. Thresholds dictate whether the classification is made or not. </p>
+<p>ROC (Receiver Operating Characteristic) curves plot FPR (False Positive Rate) against TPR (True Positive Rate) for all possible thresholds so that AUC can be calculated. An AUC closest to 1 indicates a perfect classifier.</p>
+<div style = "height: 500px" id = "xgboostauc"></div>
+<p>As demonstrated here, the XGBoost model performs well across all 3 classes for the pre-2025 test data which was randomly sampled across all years and locations in the dataset. </p>
+<p>The full performance of the model can be understood below:</p>
+<div class="table-container">
+<table>
+    <tr>
+        <th>Class</th>
+        <th>Precision</th>
+        <th>Recall</th>
+        <th>F1-Score</th>
+        <th>Sample Size</th>
+    </tr>
+    <tr>
+        <td>No/Low Rainfall</td>
+        <td>0.76</td>
+        <td>0.70</td>
+        <td>0.73</td>
+        <td>142641</td>
+    </tr>
+    <tr>
+        <td>Moderate rainfall</td>
+        <td>0.77</td>
+        <td>0.85</td>
+        <td>0.81</td>
+        <td>224405</td>
+    </tr>
+    <tr>
+        <td>Heavy Rainfall</td>
+        <td>0.66</td>
+        <td>0.41</td>
+        <td>0.50</td>
+        <td>26336</td>
+    </tr>
+</table>
+</div>
+<p>The table above reveals an interesting pattern for the XGBoost model. The heavy rainfall category has the smallest sample size which may influence its low recall (True Positives/ Actual Positives) and reduced precision (True Positives / Predicted Positives). </p>
+<p> Therefore, the model measures a lower F1 score (averaged recall and precision). However, this same heavy rainfall category measured the highest AUC - this indicates that the wrong thresholds were found to convert predicted probabilities into category estimates. </p>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">CatBoost Modelling</h2>
+<p>Next, I experimented with CatBoost modelling to predict rainfall historically. </p>
+<p> Again, I followed a similar appraoch to the XGBoost model to understand the model's predictive capacity.</p>
+<div style = "height: 850px" id = "catboostheat"></div>
+<div style = "height: 500px" id = "catboostauc"></div>
+<p>As demonstrated here, the CatBoost model performs slightly worse across all 3 classes for the pre-2025 test data compared to XGBoost. </p>
+<p>The full performance of the model can be understood below:</p>
+<div class="table-container">
+<table>
+    <tr>
+        <th>Class</th>
+        <th>Precision</th>
+        <th>Recall</th>
+        <th>F1-Score</th>
+        <th>Sample Size</th>
+    </tr>
+    <tr>
+        <td>No/Low Rainfall</td>
+        <td>0.68</td>
+        <td>0.65</td>
+        <td>0.66</td>
+        <td>142641</td>
+    </tr>
+    <tr>
+        <td>Moderate rainfall</td>
+        <td>0.74</td>
+        <td>0.76</td>
+        <td>0.75</td>
+        <td>224405</td>
+    </tr>
+    <tr>
+        <td>Heavy Rainfall</td>
+        <td>0.50</td>
+        <td>0.50</td>
+        <td>0.50</td>
+        <td>26336</td>
+    </tr>
+    
+</table>
+</div>
+<p>The CatBoost model is an overall weaker model for predicting rainfall across Germany compared to XGBoost.</p>
+<p>Whilst both model types are tree based approaches, they have different underlying models. XGBoost typically performs better on numerical rather than categorical input features over large datasets such as the one employed here.</p>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2 style = "text-align: center">Overeall Performance</h2>
+<p style = "text-align: center">The below line graph visualises how accuracy has varied across the years sampled - including the unseen year of 2025. I have also included the rainfall across the years since 1900. </p>
+<div style = "height: 500px" id="geraccuracy"></div>
+<div style = "height: 500px" id="geryear"></div>
+<p style = "text-align: center">A caveat to my methods are that I have utilised some data from pre-1900s, however, the sample size here is considerably smaller - this means that it is not as representative. For future studies, I will retrain the model on 1900s data and onwards.  </p>
+<p style = "text-align: center">An interesting pattern emerges when considering the overall increase in rainfall over the years - as demonstrated by my linear regression model. In 2025, we have a local minimum (for data up until June 2025), however, it is difficult to say for certain whether this will represent the entire year.  </p>
+<p style = "text-align: center">One thing that is clear, is that the model struggled to predict rainfall accurately for 2025, dropping to a 50% accuracy rate - contrasting the other years in the study. </p>
+<p style = "text-align: center">This may serve to highlight the increasing unpredictability of individual year rainfall - despite long-term patterns indicating a general increase. For scientists and forecasters, this brings unique challenges. </p>
+
+
+</div>
+</section>
+
+
+<section>
+<div class="container reveal">
+<h2 style = "text-align: center">The broader study</h2>
+<p style = "text-align: center">Oxford Economics have created an international ranking of the 1000 largest urban economies. Amidst a number of different metrics, Oxford economics assesses economics, human capital, quality of life, environment and governance. My goal is to firstly assess the biggest European urban economies (which are therefore more likely to influence global financial markets the most) and then to investigate how their local climate patterns have shifted. </p>
+<p style = "text-align: center">Here are the top 20 European cities based on the economics metrics:</p>
+<p>View the full source data and report <a href = "https://www.oxfordeconomics.com/global-cities-index/">here</a></p>
+<div id="euromapcontainer"></div>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2 style = "text-align: center">What comes next?</h2>
+<p style = "text-align: center">As this third chapter demonstrates, there are accurate models which can be generated using tree-based classification techniques. However, these models may struggle to deal with increasingly extreme and variable climate conditions. .</p>
+<p style = "text-align: center">In order to begin to predict financial patterns, I must first find a more robust forecasting tool for future climate patterns across European urban economies.</p>
+<h2  style = "text-align: center">Data Sources</h2>
+<p style = "text-align: center">Full data can be found on ECAD (European Climate Assessment & Dataset) - accessed 01/08/25, found <a href ='https://www.ecad.eu/dailydata/predefinedseries.php' >here</a>
+“We acknowledge the data providers in the ECA&D project. Klein Tank, A.M.G. and Coauthors, 2002. Daily dataset of 20th-century surface air temperature and precipitation series for the European Climate Assessment. Int. J. of Climatol.,
+     22, 1441-1453. Data and metadata available at https://www.ecad.eu”</p>
+</section>
+
+<script src = '{% static "eurostock/euromap.js" %}'></script>
+<script src = '{% static "eurostock/eurofreq.js" %}'></script>
+<script src = '{% static "generaluse/reveal.js" %}'></script>
+<script src = '{% static "eurostock/heatmap.js" %}'></script>
+<script src = '{% static "eurostock/auc.js" %}'></script>
+<script src = '{% static "eurostock/yearseries.js" %}'></script>
+<script>
+drawfreqdens('eurostock/data/rainfall2025.csv', 'raincurrdist', 'Average Daily Rainfall 2025 in Germany', 'Frequency', 
+'Frequency Density of average daily rainfall', 
+'rainfall',  '#57d5eeff', '#0062ffff', 'Daily Average Rainfall');
+draweuromap('eurostock/data/germanlocs.json','germanymapcontainer','German Weather Stations ',
+        'Source: ECAD (European Climate Assessment & Dataset), Accessed: 13/9/25'
+    )
+drawheatmap("eurostock/data/xgboost_confusion_matrix.csv", 'xgboostheat', 
+'Confusion Matrix for XGBoost Model Predictions', 'Rainfall Categories', 'Rainfall Categories',
+["#07ff00","#37e132","#11cd0c","#26a822","#048500"]);
+drawauc("xgboostauc", {'No/Low Rainfall': 0.900, 'Moderate Rainfall': 0.863, 'Heavy Rainfall':0.953},'AUC curves for the 3 prediction classes for the XGBoost Model')
+drawheatmap("eurostock/data/catboost_confusion_matrix.csv", 'catboostheat', 
+'Confusion Matrix for CatBoost Model Predictions', 'Rainfall Categories', 'Rainfall Categories',
+['#9b9be7','#b0b0ec','#c5c5f1','#d9d9f6','#eeeefb']);
+drawauc("catboostauc", {'No/Low Rainfall': 0.828, 'Moderate Rainfall': 0.775, 'Heavy Rainfall':0.916},'AUC curves for the 3 prediction classes for the CatBoost Model')
+drawlinechart("eurostock/data/accuracygermany.csv", 'geraccuracy', 'Line Graph of XGBoost Model Accuracy over time', 'year', 'Accuracy', 'YES', 'year', ['Accuracy']);
+drawlinechart("eurostock/data/yeargermany.csv", 'geryear', 'Time Series of rainfall in Germany since 1900s', 'year', 'Average Daily Rainfall /mm', 'YES', 'year', ['Rainfall', 'Linear Prediction']) ;
+draweuromap('eurostock/data/top20cities.json','euromapcontainer','Top European Urban Economies ',
+        'Source: Oxford Economics, Accessed: 20/07/25, (Cities are mapped to nearest weather stations)')
+</script>
+</body>
+{% endblock %}
