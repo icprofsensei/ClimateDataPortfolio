@@ -1,9 +1,82 @@
-<!DOCTYPE HTML>
-<html>
-  <head>
-    <title> Climate Data Portfolio</title>
-  </head>
-  <body>
-    <h1> Climate Data Portfolio</h1>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+<title>Analyics Vis Hub</title>
+
+</head>
+<body>
+    <div class="wrapper">
+        <main>
+            <div class="wrapper_inner">
+                <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                          </button>
+                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <!-- Always visible links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home<i class="fa fa-fw fa-home"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/skills">Skills</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Extremism
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/extremism">Exploratory Data Analysis</a></li>
+                                <li><a class="dropdown-item" href="/extremism/insight">Age and Climate</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Malaria
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/mosquito">Exploratory Data Analysis</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Climate Finance
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/eurostock">How have European cities changed?</a></li>
+                                <li><a class="dropdown-item" href="/eurostock/insight">Munich under the microscope</a></li>
+                                <li><a class="dropdown-item" href="/eurostock/germany">Rainfall Modelling in Germany</a></li>
+                                <li><a class="dropdown-item" href="/eurostock/solar">Solar Summers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+                </nav>
+
+                <!-- Dynamic content below the navbar -->
+                <div class="container main-content">
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.navbar-nav .nav-item');
+    
+            // Set equal margins for each item dynamically
+            navItems.forEach(item => {
+                item.style.margin = '0 10px'; // Set fixed margin for spacing
+            });
+        });
+    </script>
+</body>
 </html>
