@@ -1,11 +1,14 @@
-{% extends 'base.html' %}
-{% block title %}Article{% endblock %}
-{% block content %}
-
+<!DOCTYPE html>
+<html lang="en">
+     
 <head>
-{% load static %}
-<link href='{% static "generaluse/base.css" %}' rel='stylesheet'>
-<link href='{% static "eurostock/add.css" %}' rel='stylesheet'>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="//d3js.org/d3.v3.min.js"></script>
+<link href="generaluse/base.css" rel='stylesheet'>
+<link href="eurostock/add.css" rel='stylesheet'>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js'></script>
 <script src='https://cdn.anychart.com/releases/8.13.0/js/anychart-bundle.min.js'></script>
 <script src="https://code.highcharts.com/maps/highmaps.js"></script>
@@ -18,10 +21,70 @@
 <script src="https://code.highcharts.com/modules/data.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
 <script src="https://marketing-demo.s3-eu-west-1.amazonaws.com/densityFunction/processDensity.js"></script>
+<title>Solar</title>
 </head>
 
 <body>
 
+
+         <div class="wrapper">
+        <main>
+            <div class="wrapper_inner">
+                <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                          </button>
+                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <!-- Always visible links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home<i class="fa fa-fw fa-home"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="skills.html">Skills</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Extremism
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="extremism.html">Exploratory Data Analysis</a></li>
+                                <li><a class="dropdown-item" href="extremism_insight.html">Age and Climate</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Malaria
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="mosquito.html">Exploratory Data Analysis</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Climate Finance
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="eurostock.html">How have European cities changed?</a></li>
+                                <li><a class="dropdown-item" href="eurostock_insight.html">Munich under the microscope</a></li>
+                                <li><a class="dropdown-item" href="germany.html">Rainfall Modelling in Germany</a></li>
+                                <li><a class="dropdown-item" href="solar.html">Solar Summers</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+                </nav>
+
+                <!-- Dynamic content below the navbar -->
+                <div class="container main-content">
+                </div>
+            </div>
+        </main>
+    </div>
+
+     
 <section>
 <div class="container reveal">
 <h1 style = "text-align: center">The European rise in solar power</h1>
@@ -38,7 +101,7 @@
 <p style = "text-align: left">With the same token, it is also important to reflect cautious optimism when signs of progress can be seen. That is not to ignore the global climate emergency
 ,where countries across the globe are posed with an increasing need for climate adaptation, but that governments and systems are responding positively in some regards to these dangers. </p> 
 <p style = "text-align: left"> As part of my ongoing projects studying European urban economies and their responses to our changing climate, I wanted to present these global trends through the lens of Europe. 
-    Despite enduring one of the deadliest, most expensive and damagings Summers in 2025, I would like to highlight some of the shoots of progress becoming visible now.</p>
+Despite enduring one of the deadliest, most expensive and damagings Summers in 2025, I would like to highlight some of the shoots of progress becoming visible now.</p>
 </div> 
 </section>
 
@@ -65,6 +128,7 @@
 <button style = "left: 30%; position: relative"" onclick="YearAnimation()">Rise in extreme heat animation</button>
 </div>
 </section>
+     
 <section>
 <div class="container reveal">
 <h2  style = "text-align: center">Examining energy across Europe:</h2>
@@ -77,6 +141,7 @@
 <div style = "height: 500px" id = "sunburst"></div>
 </div>
 </section>
+     
 <section>
 <div class="container reveal">
 <h2  style = "text-align: center">How did European energy generation respond?</h2>
@@ -88,6 +153,7 @@
 </p>
 </div>
 </section>
+     
 <section>
 <div class="container reveal">
 <h2  style = "text-align: center">What was the composite makeup of energy generation?</h2>
@@ -99,6 +165,7 @@ used in small properties and devices, to a method of large-scale, grid-supportin
 </p>
 </div>
 </section>
+     
 <section>
 <div class="container reveal">
 <h2  style = "text-align: center">How have fuel compositions shifted?</h2>
@@ -111,6 +178,7 @@ used in small properties and devices, to a method of large-scale, grid-supportin
 </p>
 </div>
 </section>
+     
 <section>
 <div class="container reveal">
 <h2  style = "text-align: center">Success study 1: First Solar</h2>
@@ -123,6 +191,7 @@ over silicon panels.  Whilst they dominate North American markets, <a href = "ht
 </p>
 </div>
 </section>
+     
 <section>
 <div class="container reveal">
 <h2  style = "text-align: center">Success study 2: Nextpower</h2>
@@ -134,6 +203,7 @@ logistic support required for large-scale solar projects.
 </p>
 </div>
 </section>
+     
 <section>
 <div class="container reveal">
 <h2  style = "text-align: center">Conclusion</h2>
@@ -145,6 +215,7 @@ in solar stocks such as the ones above.
 </p>
 </div>
 </section>
+     
 <section>
 <div class="container reveal">
 <h2 style = "text-align: center">The broader study</h2>
@@ -170,14 +241,15 @@ in solar stocks such as the ones above.
      22, 1441-1453. Data and metadata available at https://www.ecad.eu”</p>
 </div>
 </section>
-
-<script src = '{% static "eurostock/euromap.js" %}'></script>
-<script src = '{% static "eurostock/polarscsvline.js" %}'></script>
-<script src = '{% static "eurostock/polarscsvbar.js" %}'></script>
-<script src = '{% static "eurostock/polarscsvarea.js" %}'></script>
-<script src = '{% static "eurostock/polarscustom_multibar.js" %}'></script>
-<script src = '{% static "generaluse/reveal.js" %}'></script>
-<script src = '{% static "generaluse/sunburst.js" %}'></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src = "generaluse/navbar.js"> </script>
+<script src = "eurostock/euromap.js"></script>
+<script src = "eurostock/polarscsvline.js"></script>
+<script src = "eurostock/polarscsvbar.js"></script>
+<script src = "eurostock/polarscsvarea.js"></script>
+<script src = "eurostock/polarscustom_multibar.js"></script>
+<script src = "generaluse/reveal.js"></script>
+<script src = "generaluse/sunburst.js"></script>
 <script>
 drawlinefromcsv("eurostock/data/maxtemp2025.csv", 'maxtemp2025', 'Time Series of maximum temperature in 2025 so far', 'Day', 'Average Maximum Daily Temperature across Europe', '#d54033', 'DATE', ['TX_MEAN']) ;
 drawbarfromcsv("eurostock/data/over352025.csv", 'over352025', 'Bar chart of days over 35 degrees in 2025', 'Day', 'Number of sites where Maximum Daily Temperature across Europe is over 35 degrees', '#d5a333', 'DATE',
@@ -257,4 +329,3 @@ drawlinefromcsv("eurostock/data/NXT.csv", 'nxt', 'Time Series of adjusted openin
 
 </script>
 </body>
-{% endblock %}
