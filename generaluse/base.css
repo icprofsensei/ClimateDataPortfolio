@@ -2,7 +2,6 @@ section{
     min-height: 50vh;
     display: flex;
     justify-content: center;
-    align-items: center;
     width: 100%;
     background-color:rgb(255, 255, 255);
     background-size: 8em 8em;
