@@ -1,0 +1,96 @@
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+function arraymaker(fileloc) {
+    return new Promise((resolve, reject) => {
+        // Construct the static URL dynamically for Django
+        const staticFilePath = `/static/${fileloc}`;
+
+        // Fetch the CSV file
+        fetch(staticFilePath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(csvData => {
+                // Parse the CSV data using PapaParse
+                Papa.parse(csvData, {
+                    header: true, // Set to true if the CSV has headers
+                    skipEmptyLines: true, // Ignore empty lines
+                    complete: function(results) {
+                        resolve(results.data);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error(`Error loading the CSV file from ${fileloc}:`, error);
+                reject(error);
+            });
+    });
+}
+function drawbarfromcsv(file, html, title, xlab, ylab, rancol, col1, col2) {
+    anychart.onDocumentReady(async function () {
+        try {
+            const data = await arraymaker(file);
+            if (!data || data.length === 0) {
+                console.error("No data loaded from CSV.");
+                return;
+            }
+            chart = anychart.column();
+            
+            const cols = Object.keys(data[0]).filter(item => item !== 'x');
+            for (let j = 0; j< (cols.length -1); j++){
+                dataarr = []
+                for (let i = 0; i < data.length; i ++) {
+                    if (col1 == 'DATE') {
+                        dataarr.push( [ new Date(data[i][col1]), parseFloat(data[i][col2[j]]) ] )
+                    }
+                    else {
+                        dataarr.push([data[i][col1], data[i][col2[j]]])
+                    }
+                }
+                const bar = chart.column(dataarr);
+                if (rancol == 'YES'){
+                    let colorran = getRandomColor()
+                    bar.fill(colorran);
+                    bar.stroke({color: colorran, thickness: 3});
+                    bar.name(col2[j]);
+                }
+                else {
+                    bar.fill(rancol);
+                    bar.stroke({color: rancol, thickness: 3});
+                    bar.name(col2[j]);
+                }
+            }
+
+            chart.title(title);
+            chart.title().fontSize(20)
+            chart.legend().enabled(true);
+            chart.legend().fontSize(10);
+            chart.barGroupsPadding(0);
+            if (col1 == 'DATE') {
+                chart.xAxis().labels().format(function () {
+                    var date = new Date(this.value);
+                    return date.toLocaleDateString();
+                });
+            } else {
+                chart.xAxis().labels().format(function (value) {
+                    return Math.round(value);
+                });
+            }
+            chart.xAxis().title(xlab);
+            chart.yAxis().title(ylab);
+            chart.container(html);
+            chart.draw();
+        } catch (error) {
+            console.error("Error initializing the chart:", error);
+        }
+    });
+}

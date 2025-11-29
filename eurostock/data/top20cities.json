@@ -1,0 +1,115 @@
+[{
+  "name": "London",
+  "lat": 51.3339,
+  "lon": -0.1044,
+  "country": "GB",
+  "id": 1859
+}, {
+  "name": "Paris",
+  "lat": 48.4300,
+  "lon": 2.2303,
+  "country": "FR",
+  "id": 11249
+}, {
+  "name": "Copenhagen",
+  "lat": 55.3650,
+  "lon": 12.3844,
+  "country": "DK",
+  "id": 25254
+}, {
+  "name": "Dublin",
+  "lat": 53.2020,
+  "lon": -6.1511,
+  "country": "IE",
+  "id": 1715
+}, {
+  "name": "Frankfurt",
+  "lat": 50.0247,
+  "lon": 8.3554,
+  "country": "DE",
+  "id": 44
+}, {
+  "name": "Munich",
+  "lat": 48.0951,
+  "lon": 11.3239,
+  "country": "DE",
+  "id": 52
+}, {
+  "name": "Berlin",
+  "lat": 52.2806,
+  "lon": 13.2414,
+  "country": "DE",
+  "id": 2759
+},{
+  "name": "Stockholm",
+  "lat": 59.2100,
+  "lon": 18.0300,
+  "country": "SE",
+  "id": 10
+}, {
+  "name": "Oslo",
+  "lat": 59.5508,
+  "lon": 10.4543,
+  "country": "NO",
+  "id": 18224
+}, {
+  "name": "Geneva",
+  "lat": 46.1200,
+  "lon": 6.0900,
+  "country": "CH",
+  "id": 241
+}, {
+  "name": "Zurich",
+  "lat": 47.2259,
+  "lon": 8.3400,
+  "country": "CH",
+  "id": 244
+}, {
+  "name": "Brussels",
+  "lat": 50.5311,
+  "lon": 4.0540,
+  "country": "BE",
+  "id": 20777
+}, {
+  "name": "Luxembourg",
+  "lat": 49.3629,
+  "lon": 6.0920,
+  "country": "LU",
+  "id": 24855
+}, {
+  "name": "Rotterdam",
+  "lat": 51.5738,
+  "lon": 4.2648,
+  "country": "NL",
+  "id": 598
+}, {
+  "name": "Amsterdam",
+  "lat": 52.3834,
+  "lon": 4.5844,
+  "country": "NL",
+  "id": 451
+}, {
+  "name": "Madrid",
+  "lat": 40.2800,
+  "lon": -3.3320,
+  "country": "ES",
+  "id": 3946
+}, {
+  "name": "Vienna",
+  "lat": 48.1153,
+  "lon": 16.2200,
+  "country": "AT",
+  "id": 24408
+}, {
+  "name": "Helsinki",
+  "lat": 60.1200,
+  "lon": 25.0459,
+  "country": "FI",
+  "id": 7033
+}, {
+  "name": "Prague",
+  "lat": 50.0511,
+  "lon": 14.2459,
+  "country": "CZ",
+  "id": 27
+}]
