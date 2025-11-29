@@ -11,7 +11,9 @@
 
 </head>
 <body style=height:1500px>
-    <div class="wrapper_inner">
+  <div class="wrapper">
+        <main>
+            <div class="wrapper_inner">
                 <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
                     <div class="container-fluid">
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,8 +33,8 @@
                                 Extremism
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/extremism">Exploratory Data Analysis</a></li>
-                                <li><a class="dropdown-item" href="/extremism/insight">Age and Climate</a></li>
+                                <li><a class="dropdown-item" href="extremism.html">Exploratory Data Analysis</a></li>
+                                <li><a class="dropdown-item" href="extremism_insight.html">Age and Climate</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -40,7 +42,7 @@
                                 Malaria
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/mosquito">Exploratory Data Analysis</a></li>
+                                <li><a class="dropdown-item" href="mosquito.html">Exploratory Data Analysis</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -63,7 +65,8 @@
                 <div class="container main-content">
                 </div>
             </div>
-  </div>
+        </main>
+    </div>
     <h1 style="text-align: center">Skills Tree (in progress)</h1>
     <div class="center-container">
         <button onclick="drawtree('skills/skilltree.json', '#tree', 'vert', 'translate(0, 40)', secwid - 40, sechei )" style="font-size: 2em" >Reveal Tree</button>
