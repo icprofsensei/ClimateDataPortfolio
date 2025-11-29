@@ -1,8 +1,8 @@
 section{
     min-height: 50vh;
     display: flex;
-    justify-content: center;
-    width: 100%;
+    justify-content: left;
+    align-items: center;
     background-color:rgb(255, 255, 255);
     background-size: 8em 8em;
     background-image: radial-gradient(circle, #587ce6 0.06em, #fcfcfc 1px);
@@ -50,7 +50,7 @@ section .text-container{
 .sideimg{
     width: 300px;
     height: auto;
-    max-width: 100%;
+    max-width: 50%;
     display: block;
     margin-left: 20px;
     margin-bottom: 20px;
@@ -87,9 +87,6 @@ body {
     background-image:
       linear-gradient(to right, rgb(255, 255, 255) 0.3em, transparent 0.3em),
       linear-gradient(to bottom, rgb(255, 255, 255) 0.3em, transparent 0.3em);
-    display: flex;
-    justify-content: center;
-    align-items:center;
   }
 
   .table-container {
@@ -140,3 +137,5 @@ body {
         height: 200px; 
     }
   }
+
+
