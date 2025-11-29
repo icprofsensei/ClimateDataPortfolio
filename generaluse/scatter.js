@@ -8,7 +8,7 @@ function getRandomColor() {
   }
 function arraymaker(fileloc) {
     return new Promise((resolve, reject) => {
-        const staticFilePath = concat('/', fileloc);
+        const staticFilePath = fileloc;
 
         // Fetch the CSV file
         fetch(staticFilePath)
