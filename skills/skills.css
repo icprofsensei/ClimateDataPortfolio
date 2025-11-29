@@ -1,0 +1,35 @@
+h1{
+    color:blueviolet;
+}
+.center-container{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+.project{
+    font-size: 2em;
+}
+#bullettitle{
+    color:rgb(67, 156, 200);
+}
+
+/* Tree */
+.node {
+    cursor: pointer;
+  }
+  
+  .node circle {
+    stroke: rgb(109, 163, 110);
+    stroke-width: 7px;
+  }
+  
+  .node text {
+    font: 2em sans-serif;
+    color: #469c6f;
+  }
+  
+  .link {
+    fill: none;
+    stroke: #11833b;
+    stroke-width: 3px;
+  }
