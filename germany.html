@@ -1,11 +1,7 @@
-{% extends 'base.html' %}
-{% block title %}Article{% endblock %}
-{% block content %}
 
 <head>
-{% load static %}
-<link href='{% static "generaluse/base.css" %}' rel='stylesheet'>
-<link href='{% static "eurostock/add.css" %}' rel='stylesheet'>
+<link href="generaluse/base.css" rel='stylesheet'>
+<link href="eurostock/add.css" rel='stylesheet'>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js'></script>
 <script src='https://cdn.anychart.com/releases/8.13.0/js/anychart-bundle.min.js'></script>
 <script src="https://code.highcharts.com/maps/highmaps.js"></script>
@@ -24,7 +20,7 @@
 <section>
 <div class="container reveal">
 <h1 style = "text-align: center">Modelling rainfall in Germany</h1>
-<img src="{% static 'eurostock/germany.JPG' %}" alt="ImageFileNotFound" width="100%" height="auto">
+<img src="eurostock/germany.JPG" alt="ImageFileNotFound" width="100%" height="auto">
 </div>
 </section>
 
@@ -205,12 +201,12 @@
      22, 1441-1453. Data and metadata available at https://www.ecad.eu”</p>
 </section>
 
-<script src = '{% static "eurostock/euromap.js" %}'></script>
-<script src = '{% static "eurostock/eurofreq.js" %}'></script>
-<script src = '{% static "generaluse/reveal.js" %}'></script>
-<script src = '{% static "eurostock/heatmap.js" %}'></script>
-<script src = '{% static "eurostock/auc.js" %}'></script>
-<script src = '{% static "eurostock/yearseries.js" %}'></script>
+<script src = "eurostock/euromap.js"></script>
+<script src ="eurostock/eurofreq.js"></script>
+<script src = "generaluse/reveal.js"></script>
+<script src = "eurostock/heatmap.js"></script>
+<script src = "eurostock/auc.js"></script>
+<script src = "eurostock/yearseries.js"></script>
 <script>
 drawfreqdens('eurostock/data/rainfall2025.csv', 'raincurrdist', 'Average Daily Rainfall 2025 in Germany', 'Frequency', 
 'Frequency Density of average daily rainfall', 
