@@ -197,14 +197,7 @@ in solar stocks such as the ones above.
      22, 1441-1453. Data and metadata available at https://www.ecad.eu”</p>
 </div>
 </section>
-<script>
-        fetch("navbar.html")
-    .then(res => res.text())
 
-    .then(html => {
-      document.getElementById("navbar").innerHTML = html;
-    })
-    </script>
     
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 <script src = "generaluse/navbar.js"> </script>
@@ -215,6 +208,15 @@ in solar stocks such as the ones above.
 <script src = "eurostock/polarscustom_multibar.js"></script>
 <script src = "generaluse/reveal.js"></script>
 <script src = "generaluse/sunburst.js"></script>
+<script>
+        fetch("navbar.html")
+    .then(res => res.text())
+
+    .then(html => {
+      document.getElementById("navbar").innerHTML = html;
+    })
+</script>
+
 <script>
 drawlinefromcsv("eurostock/data/maxtemp2025.csv", 'maxtemp2025', 'Time Series of maximum temperature in 2025 so far', 'Day', 'Average Maximum Daily Temperature across Europe', '#d54033', 'DATE', ['TX_MEAN']) ;
 drawbarfromcsv("eurostock/data/over352025.csv", 'over352025', 'Bar chart of days over 35 degrees in 2025', 'Day', 'Number of sites where Maximum Daily Temperature across Europe is over 35 degrees', '#d5a333', 'DATE',
