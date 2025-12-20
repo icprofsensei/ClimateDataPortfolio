@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+     
+<head>
+<meta charset="UTF-8">
+    
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="//d3js.org/d3.v3.min.js"></script>
+<link href="generaluse/base.css" rel='stylesheet'>
+<link href="eurostock/add.css" rel='stylesheet'>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js'></script>
+<script src='https://cdn.anychart.com/releases/8.13.0/js/anychart-bundle.min.js'></script>
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/modules/marker-clusters.js"></script>
+<script src="https://code.highcharts.com/modules/coloraxis.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/maps/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/themes/adaptive.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+<script src="https://marketing-demo.s3-eu-west-1.amazonaws.com/densityFunction/processDensity.js"></script>
+<title>Solar</title>
+<style>
+section {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       max-width: 100%; 
+}
+</style>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> 
+</head>
+
+<body>
+
+
+         <div id='navbar' class="wrapper">
+        
+    </div>
+
+     
+<section>
+<div class="container reveal">
+<h1 style = "text-align: center">Is FirstSolar under or over-valued?</h1>
+<img src="solar/fslr.jpg" alt="ImageFileNotFound" width="100%" height="auto">
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Introduction</h2>
+<p style = "text-align: left">
+    First Solar manufacture thin film Cadmium Telluride (CdTe) photovoltaic (PV) technology. Their lighter weight and flexibility 
+    enables the technology to be <a href = "https://perfectsenseenergy.com/solar-insight/types-of-solar-pv-technologies/">incorporated into more surfaces</a> than traditional panels. However, they have lower overall efficiency (10-12%) on average 
+    despite an acclaimed higher <a href = "https://www.firstsolar.com/Technology/CadTel">theoretical efficiency limit.</a>  
+</p> 
+<p style = "text-align: left">Currently, the market appears on the verge of another major shift with <a href = "https://www.bbc.co.uk/future/article/20251015-perovskite-the-wonder-material-that-could-transform-solar-energy">Perovskite PV panels.</a> 
+    Oxford PV can increase the maximum theoretical efficiency to over 47%.
+</p> 
+<p style = "text-align: left"> New technology can often take time to become tested and adopted, therefore, we can look at the development of 
+    First Solars CdTe technology in their PV cells as model systems for perovskite cells at Oxford PV. 
+</p>
+<p style = 'text-align: left'>
+As demonstrated in previous data stories, solar technology has experience a boom across Europe as it becomes cheaper and more efficient. As perovskite panels emerge into the market now, we may be approaching a tipping point, beyond which solar technology becomes rapidly adopted and widespread. 
+From an investment perspective, it is vital to understand when exactly is the best opportunity to capitalise on this moment...
+</p>
+</div> 
+</section>
+
+     
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">The book value of FSLR has risen over the past two decades...</h2>
+<div style = "height: 500px" id = "book"></div>
+<p style = "text-align: left">
+Book value can be calculated via the following: 
+<math xmlns="https://www.w3.org/1998/Math/MathML/">
+            <mfrac>
+                <mn>Total Shareholder Equity</mn>
+                <mn>Common Stock Shares Outstanding</mn>
+            </mfrac>
+</math>
+Both Total Shareholder Equity and Common Stock Shares Outstanding can be found in a company's balance sheet. Through the alphavantage API, I was able to plot the change in book value from 2005 to 2025.
+</p>
+</div>
+</section>
+    
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">This is driven mostly by a rise in shareholder equity</h2>
+<div style = "height: 500px" id = "equity"></div>
+<p style = "text-align: left">
+Shareholder equity has increased significantly in the time period studied, it can be calculated by the following: <br>
+<math xmlns="https://www.w3.org/1998/Math/MathML/">
+    <mtext>            TotalShareholderEquity = Total Assets - Total liabilities
+</mtext>
+</math>
+<br>
+This indicates that FSLR has acquired more assets / reduced its liabilities, to therefore increase it's overall value.
+
+</p>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Since shares outstanding has remained stable since 2013</h2>
+<div style = "height: 500px" id = "shares"></div>
+<p style = "text-align: left">
+Between 2005 and 2013, First Solar made more shares available to purchase at set instances which led to sharp increases in outstanding shares. However, since 2013, the level has increased gradually - therefore demonstrating 
+that the overall increase in book value of the FSLR stock is due to the rise in total shareholder equity (as opposed to manipulation of the total shares available)
+</p>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">Market value has demonstrated a more complex long-term pattern </h2>
+<div style = "height: 500px" id = "stockprice"></div>
+<p style = "text-align: left">
+First Solar's market price shows a similar increase from 2012 onwards with a similar increased rate after 2022 as the book value of First Solar.
+However, prior to 2012, there appears to have been at least significant crashes in the stock value  - at least one potentially corresponding to the 2009 global financial crash (linked to US housing market). 
+</p>
+</div>
+</section>
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">So, what is its true value?</h2>    
+<div style = "height: 500px" id = "value"></div>
+<p style = "text-align: left">
+Now, when considering the market value to book value ratio, it's clear that the FSLR (First Solar) stock 
+was highly over-valued initially, perhaps explaining the sudden decrease in market value when shareholders 
+realised this. For almost 10 years between 2011 and 2020 the stock price and book value were closely matched. 
+However, recently, there has been a distinct shift towards an over-valuation in the stock again - indicating
+that investor valuation of First Solar has risen beyond the simple combination of its assets and liabilities.
+
+</p>
+
+</div>
+</section>
+
+
+<section>
+<div class="container reveal">
+<h2  style = "text-align: center">What might be determining market price?</h2>
+
+<div style = "height: 500px" id = "incomesheet"></div>
+<p style = "text-align: left">
+To determine associations between different metrics on the income sheet and market share price, I conducted distance correlation analysis. 
+This remains reliable with nonlinear relationships (such as the patterns observed in market share price) and therefore offers a better indication
+of association than standard correlation coefficients (such as Pearson's correlation coefficient)
+<p>
+<p style = "text-align: left">
+The results indicate that the market price is most influenced by the aggregation metrics:
+these factor in increases and decreases in value. A caveat to this method is that the distance correlation 
+does not directly state how the metric influences market price (either positively or negatively).
+</p>
+<p style = "text-align: left">
+Through exploratory data analysis, it appears that these aggregate factors lead to positive associations
+with the market value. This indicates that an increase in overall income before tax (which has the highest correlation coefficient)
+is associated with an increase in market price.
+</p>
+</div>
+</section>
+     
+
+
+<section>
+<div class="container reveal">
+<h2 style = "text-align: center">What comes next?</h2>
+<p style = "text-align: center">
+    This is my first financial data science project on solar stocks. In the coming data stories, I will look to forecast future trends 
+    in solar technology stocks to best forecast its growing popularity. 
+</p>
+<p style = "text-align: center"> Coming up next, I want to begin understanding year on year growth rates and momentum features of solar stocks.
+</p>
+<h2  style = "text-align: center">Data Sources</h2>
+<p style = "text-align: center">Full data has been obtained by <a href ="https://www.alphavantage.co/documentation/" >alphavantage</a> using my own custom
+GUI for climate stock data extraction - full source code can be obtained on github <a href = "https://github.com/icprofsensei/Finance_Stock_Database">here</a></p>
+</div>
+</section>
+
+    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script src = "generaluse/navbar.js"> </script>
+<script src = "eurostock/polarscsvline.js"></script>
+<script src = "solar/polarcsvrangespline.js"></script>
+<script src = "solar/polarcsvbarcoloured.js"></script>
+<script src = "generaluse/reveal.js"></script>
+<script src = "generaluse/sunburst.js"></script>
+<script>
+    fetch("navbar.html")
+    .then(res => res.text())
+
+    .then(html => {
+      document.getElementById("navbar").innerHTML = html;
+    })
+</script>
+
+<script>
+
+drawlinefromcsv("solar/data/bookval.csv", 'book', 'Time Series of book value of FSLR', 'Day', 'Book Value per share', '#d69b49', 'DATE', ['BookValue']) ;
+drawlinefromcsv("solar/data/bookcomp.csv", 'equity', 'Time Series of total shareholder equity value for First Solar', 'Day', 'Total Shareholder Equity', '#49d699', 'DATE', ['totalShareholderEquity']) ;
+drawlinefromcsv("solar/data/bookcomp.csv", 'shares', 'Time Series of common stock shares outstanding for First Solar', 'Day', 'Common Stock Shares Outstanding', '#78acff', 'DATE', ['commonStockSharesOutstanding']) ;
+
+drawlinefromcsv("solar/data/openadj.csv", 'stockprice', 'Time Series of adjusted opening price for FSLR', 'Day', 'Adjusted Opening Price', '#d6cc08', 'DATE', ['AdjustedOpeningPriceFSLR']) ;
+drawrangesplinefromcsv("solar/data/pricebookratio.csv", 'value', 'P/B value of FSLR', 'Day', 'P/B Ratio', '#d6cc08', 'DATE', ['pbratio'], 1.0)
+drawcustomcolbar("solar/data/market_incomesheet.csv", 'incomesheet', 'Distance Correlation', 'Income Sheet Variable', 'Correlation between income sheet measure and market value of FSLR');
+</script>
+</body>

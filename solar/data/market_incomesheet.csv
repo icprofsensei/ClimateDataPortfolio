@@ -1,0 +1,16 @@
+x,value,fill
+totalRevenue,0.20297932166529026,#64ed6a
+grossProfit,0.39676512194368513,#64ed6a
+costOfRevenue,0.36601110170111617,#ed6d64
+costofGoodsAndServicesSold,0.36601110170111617,#ed6d64
+sellingGeneralAndAdministrative,0.2559884376639253,#ed6d64
+researchAndDevelopment,0.35267816084905285,#ed6d64
+operatingExpenses,0.2802798090507227,#ed6d64
+interestExpense,0.20222136747684016,#ed6d64
+depreciationAndAmortization,0.38876330910975865,#ed6d64
+incomeTaxExpense,0.3101763273777271,#ed6d64
+operatingIncome,0.45058880164279985,#edd264
+incomeBeforeTax,0.45741708592036884,#edd264
+ebit,0.4529129965219349,#edd264
+ebitda,0.4341957008945173,#edd264
+netIncome,0.4266186503904797,#edd264
